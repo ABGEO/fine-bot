@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    container_name: finebot_db
+    environment:
+      - POSTGRES_DB=finebot
+      - POSTGRES_USER=finebot
+      - POSTGRES_PASSWORD=changeme
