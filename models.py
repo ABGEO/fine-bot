@@ -1,7 +1,9 @@
+# pylint: disable=too-few-public-methods,missing-class-docstring
+
 import datetime
 import enum
 
-from sqlalchemy import Column, LargeBinary, ForeignKey
+from sqlalchemy import LargeBinary, ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Date
@@ -37,17 +39,19 @@ class Protocol(Base):
     )
 
     def __repr__(self):
-        return f"Protocol(" \
-               f"id={self.id!r}, " \
-               f"protocol_number={self.protocol_number!r}, " \
-               f"car_state_number={self.car_state_number!r}, " \
-               f"date={self.date!r}, " \
-               f"violation_code={self.violation_code!r}, " \
-               f"amount={self.amount!r}, " \
-               f"total_amount={self.total_amount!r}, " \
-               f"status={self.status!r}, " \
-               f"media={self.media!r}" \
-               f")"
+        return (
+            f"Protocol("
+            f"id={self.id!r}, "
+            f"protocol_number={self.protocol_number!r}, "
+            f"car_state_number={self.car_state_number!r}, "
+            f"date={self.date!r}, "
+            f"violation_code={self.violation_code!r}, "
+            f"amount={self.amount!r}, "
+            f"total_amount={self.total_amount!r}, "
+            f"status={self.status!r}, "
+            f"media={self.media!r}"
+            f")"
+        )
 
 
 class Media(Base):
