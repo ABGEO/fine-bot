@@ -58,6 +58,7 @@ class Scrapper:
 
         solver = imagecaptcha()
         solver.set_key(self._config.anti_captcha_key)
+        solver.set_soft_id(self._config.anti_captcha_soft_id)
         solver.set_case(False)
 
         self._logger.info("Sending captcha solving request")

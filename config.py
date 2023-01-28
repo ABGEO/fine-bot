@@ -9,7 +9,8 @@ class Config:
 
     base_url: str
     database_url: str
-    anti_captcha_key: str
     document_number: str
     vehicle_number: str
+    anti_captcha_key: str
+    anti_captcha_soft_id: int = 0
     session_id: str = None
