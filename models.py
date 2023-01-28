@@ -4,10 +4,7 @@ import datetime
 import enum
 
 from sqlalchemy import LargeBinary, ForeignKey
-from sqlalchemy import Integer
 from sqlalchemy import String
-from sqlalchemy import Date
-from sqlalchemy import Enum
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -29,11 +26,11 @@ class Protocol(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     protocol_number: Mapped[str] = mapped_column(String(30), unique=True)
     car_state_number: Mapped[str] = mapped_column(String(10))
-    date: Mapped[datetime.date] = mapped_column(Date)
-    violation_code: Mapped[str] = mapped_column(String)
-    amount: Mapped[int] = mapped_column(Integer)
-    total_amount: Mapped[int] = mapped_column(Integer)
-    status: Mapped[ProtocolStatus] = mapped_column(Enum(ProtocolStatus))
+    date: Mapped[datetime.date]
+    violation_code: Mapped[str]
+    amount: Mapped[int]
+    total_amount: Mapped[int]
+    status: Mapped[ProtocolStatus]
     media: Mapped[list["Media"]] = relationship(
         back_populates="protocol", cascade="all, delete-orphan"
     )
@@ -57,7 +54,7 @@ class Protocol(Base):
 class Media(Base):
     __tablename__ = "media"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     blob: Mapped[bin] = mapped_column(LargeBinary)
     protocol_id: Mapped[int] = mapped_column(ForeignKey("protocol.id"))
     protocol: Mapped["Protocol"] = relationship(back_populates="media")
@@ -69,8 +66,8 @@ class Media(Base):
 class KeyValue(Base):
     __tablename__ = "key_value"
 
-    key: Mapped[str] = mapped_column(String, primary_key=True)
-    value: Mapped[str] = mapped_column(String)
+    key: Mapped[str] = mapped_column(primary_key=True)
+    value: Mapped[str | None]
 
     def __repr__(self):
         return f"KeyValue(key={self.key!r}, value={self.value!r})"
