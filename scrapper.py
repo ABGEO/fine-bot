@@ -58,12 +58,15 @@ class Scrapper:
 
         solver = imagecaptcha()
         solver.set_key(self._config.anti_captcha_key)
+        solver.set_case(False)
 
         self._logger.info("Sending captcha solving request")
         captcha_text = solver.solve_and_return_solution("/tmp/captcha.png")
         if captcha_text == 0:
             self._logger.error("Could not get captcha solution")
             return None
+
+        self._logger.debug("Captcha solution received: %s", captcha_text)
 
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -91,7 +94,9 @@ class Scrapper:
 
         if response.url.find("protocols.php") != -1:
             self._logger.info("Client have been authenticated successfully")
-            return self._session.cookies.get("PHPSESSID")
+            session_id = self._session.cookies.get("PHPSESSID")
+            self._logger.debug("Session ID received: %s", session_id)
+            return session_id
 
         soup = BeautifulSoup(response.text, "html.parser")
         warning = soup.find("div", {"class": ["value", "warning"]})
