@@ -45,6 +45,9 @@ def send_email_notification(protocol: Protocol, config: Config):
     with smtplib.SMTP_SSL(
         config.smtp_server, config.smtp_port, context=ssl.create_default_context()
     ) as server:
+        logger.info(
+            "Sending Email notification for protocol %s", protocol.protocol_number
+        )
         server.login(config.smtp_username, config.smtp_password)
         server.sendmail(
             config.notification_sender_email,

@@ -91,10 +91,9 @@ class Processor:
                 loaded_protocol = session.scalars(stmt).first()
 
                 if loaded_protocol is not None:
-                    self._logger.info(
-                        "Protocol %s already exists. Skipping",
-                        loaded_protocol.protocol_number,
-                    )
+                    self._logger.info("Updating Protocol %s", protocol.protocol_number)
+                    protocol.id = loaded_protocol.id
+                    session.merge(protocol)
                 else:
                     self._logger.info("Saving Protocol %s", protocol.protocol_number)
                     session.add(protocol)
