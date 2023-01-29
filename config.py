@@ -24,5 +24,10 @@ class Config:
     notification_sender_email: str
     notification_receiver_email: str
 
+    sms_notification_api_url: str
+    sms_notification_username: str
+    sms_notification_password: str
+    sms_notification_receiver: str
+
     anti_captcha_soft_id: int = 0
     session_id: str = None

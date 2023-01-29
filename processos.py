@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from config import Config
 from key_value_storage import KeyValueStorage
-from notifier import send_email_notification
+from notifier import send_notifications
 from models import Base, Protocol
 from scrapper import Scrapper
 
@@ -52,6 +52,10 @@ class Processor:
             smtp_password=env.get("SMTP_PASSWORD"),
             notification_sender_email=env.get("NOTIFICATION_SENDER_EMAIL"),
             notification_receiver_email=env.get("NOTIFICATION_RECEIVER_EMAIL"),
+            sms_notification_api_url=env.get("SMS_NOTIFICATION_API_URL"),
+            sms_notification_username=env.get("SMS_NOTIFICATION_USERNAME"),
+            sms_notification_password=env.get("SMS_NOTIFICATION_PASSWORD"),
+            sms_notification_receiver=env.get("SMS_NOTIFICATION_RECEIVER"),
         )
 
     def _setup_database(self) -> Engine:
@@ -97,7 +101,7 @@ class Processor:
                 else:
                     self._logger.info("Saving Protocol %s", protocol.protocol_number)
                     session.add(protocol)
-                    send_email_notification(protocol, self._config)
+                    send_notifications(protocol, self._config)
 
             session.commit()
 
