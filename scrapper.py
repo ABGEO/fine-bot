@@ -10,7 +10,7 @@ from anticaptchaofficial.imagecaptcha import imagecaptcha
 from bs4 import BeautifulSoup, element
 
 from config import Config
-from models import Media, Protocol, ProtocolStatus
+from models import Media, Protocol, ProtocolStatus, MediaType
 
 
 class Scrapper:
@@ -191,12 +191,14 @@ class Scrapper:
         def create_media_blob(tag: element.Tag) -> Media:
             if tag.has_attr("class") and "image-box" in tag["class"]:
                 url = f"{tag.find('img')['src']}"
+                media_type = MediaType.PNG
             else:
                 result = re.search(r"'oggvideo-(.*)\.ogg';src2", str(tag))
                 url = f"oggvideo-{result.groups()[0]}.ogg"
+                media_type = MediaType.OGG
 
             self._logger.info("Getting media item from: /%s", url)
             response = self._session.get(f"{self._config.base_url}/{url}")
-            return Media(blob=response.content)
+            return Media(blob=response.content, type=media_type)
 
         return list(map(create_media_blob, wrapper.find_all("div", recursive=False)))

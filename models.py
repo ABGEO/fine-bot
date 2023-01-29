@@ -20,6 +20,11 @@ class ProtocolStatus(enum.Enum):
     UNPAID = 2
 
 
+class MediaType(enum.Enum):
+    PNG = "png"
+    OGG = "ogv"
+
+
 class Protocol(Base):
     __tablename__ = "protocol"
 
@@ -56,11 +61,12 @@ class Media(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     blob: Mapped[bin] = mapped_column(LargeBinary)
+    type: Mapped[MediaType]
     protocol_id: Mapped[int] = mapped_column(ForeignKey("protocol.id"))
     protocol: Mapped["Protocol"] = relationship(back_populates="media")
 
     def __repr__(self):
-        return f"Media(id={self.id!r}, protocol_id={self.protocol_id!r})"
+        return f"Media(id={self.id!r}, type={self.type!r}, protocol_id={self.protocol_id!r})"
 
 
 class KeyValue(Base):

@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from config import Config
 from key_value_storage import KeyValueStorage
+from notifier import send_email_notification
 from models import Base, Protocol
 from scrapper import Scrapper
 
@@ -45,6 +46,12 @@ class Processor:
             vehicle_number=env.get("VEHICLE_NUMBER"),
             anti_captcha_key=env.get("ANTI_CAPTCHA_KEY"),
             anti_captcha_soft_id=env.get("ANTI_CAPTCHA_SOFT_ID", 0),
+            smtp_server=env.get("SMTP_SERVER"),
+            smtp_port=env.get("SMTP_PORT"),
+            smtp_username=env.get("SMTP_USERNAME"),
+            smtp_password=env.get("SMTP_PASSWORD"),
+            notification_sender_email=env.get("NOTIFICATION_SENDER_EMAIL"),
+            notification_receiver_email=env.get("NOTIFICATION_RECEIVER_EMAIL"),
         )
 
     def _setup_database(self) -> Engine:
@@ -91,6 +98,7 @@ class Processor:
                 else:
                     self._logger.info("Saving Protocol %s", protocol.protocol_number)
                     session.add(protocol)
+                    send_email_notification(protocol, self._config)
 
             session.commit()
 
