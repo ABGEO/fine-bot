@@ -18,6 +18,7 @@ class Base(DeclarativeBase):
 class ProtocolStatus(enum.Enum):
     PAID_ON_TIME = 1
     UNPAID = 2
+    UNKNOWN = 2
 
 
 class MediaType(enum.Enum):
@@ -34,7 +35,6 @@ class Protocol(Base):
     date: Mapped[datetime.date]
     violation_code: Mapped[str]
     amount: Mapped[int]
-    total_amount: Mapped[int]
     status: Mapped[ProtocolStatus]
     media: Mapped[list["Media"]] = relationship(
         back_populates="protocol", cascade="all, delete-orphan"
@@ -49,7 +49,6 @@ class Protocol(Base):
             f"date={self.date!r}, "
             f"violation_code={self.violation_code!r}, "
             f"amount={self.amount!r}, "
-            f"total_amount={self.total_amount!r}, "
             f"status={self.status!r}, "
             f"media={self.media!r}"
             f")"

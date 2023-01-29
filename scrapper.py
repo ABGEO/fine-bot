@@ -151,11 +151,13 @@ class Scrapper:
             return 0
 
         def format_status(tag: element.Tag) -> ProtocolStatus:
-            # @todo: add more statuses.
             if tag.text == "გადახდილია დროულად":
                 return ProtocolStatus.PAID_ON_TIME
 
-            return ProtocolStatus.UNPAID
+            if tag.text == "გადაუხდელია":
+                return ProtocolStatus.UNPAID
+
+            return ProtocolStatus.UNKNOWN
 
         receipt_and_numbers = list(
             filter(lambda x: isinstance(x, str), cols[1].descendants)
@@ -173,7 +175,6 @@ class Scrapper:
             date=format_date(cols[2]),
             violation_code=cols[3].text,
             amount=format_money_element(cols[4]),
-            total_amount=format_money_element(cols[5]),
             status=format_status(cols[6]),
         )
 
