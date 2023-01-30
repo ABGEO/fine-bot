@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+venv/
+.env.local
+
+# IDEs
+.idea/
+
+.git/
+.gitignore
+.pre-commit-config.yaml
+.pylintrc
+docker-compose.yaml
+Dockerfile

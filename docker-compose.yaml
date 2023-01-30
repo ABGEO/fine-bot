@@ -1,5 +1,28 @@
 version: '3.8'
 services:
+  app:
+    image: ghcr.io/abgeo/fine-bot:latest
+    container_name: finebot_app
+    environment:
+      DATABASE_URL: postgresql://finebot:changeme@postgres:5432/finebot
+      ANTI_CAPTCHA_KEY:
+      ANTI_CAPTCHA_SOFT_ID: 0
+      DOCUMENT_NUMBER:
+      VEHICLE_NUMBER:
+      SMTP_SERVER:
+      SMTP_PORT:
+      SMTP_USERNAME:
+      SMTP_PASSWORD:
+      NOTIFICATION_SENDER_EMAIL:
+      NOTIFICATION_RECEIVER_EMAIL:
+      SMS_NOTIFICATION_API_URL:
+      SMS_NOTIFICATION_USERNAME:
+      SMS_NOTIFICATION_PASSWORD:
+      SMS_NOTIFICATION_RECEIVER:
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     image: postgres:latest
     container_name: finebot_db
@@ -7,3 +30,8 @@ services:
       - POSTGRES_DB=finebot
       - POSTGRES_USER=finebot
       - POSTGRES_PASSWORD=changeme
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
