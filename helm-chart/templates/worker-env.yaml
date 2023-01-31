@@ -1,0 +1,22 @@
+kind: Secret
+type: Opaque
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-worker-env
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  ANTI_CAPTCHA_KEY: {{ .Values.workerParams.antiCaptcha.key | b64enc | quote }}
+  ANTI_CAPTCHA_SOFT_ID: {{ .Values.workerParams.antiCaptcha.softId | b64enc | quote }}
+  DOCUMENT_NUMBER: {{ .Values.workerParams.documentNumber | b64enc | quote }}
+  VEHICLE_NUMBER: {{ .Values.workerParams.vehicleNumber | b64enc | quote }}
+  SMTP_SERVER: {{ .Values.workerParams.smtp.server | b64enc | quote }}
+  SMTP_PORT: {{ .Values.workerParams.smtp.port | b64enc | quote }}
+  SMTP_USERNAME: {{ .Values.workerParams.smtp.username | b64enc | quote }}
+  SMTP_PASSWORD: {{ .Values.workerParams.smtp.password | b64enc | quote }}
+  NOTIFICATION_SENDER_EMAIL: {{ .Values.workerParams.emailNotification.sender | b64enc | quote }}
+  NOTIFICATION_RECEIVER_EMAIL: {{ .Values.workerParams.emailNotification.receiver | b64enc | quote }}
+  SMS_NOTIFICATION_API_URL: {{ .Values.workerParams.smsNotification.APIUrl | b64enc | quote }}
+  SMS_NOTIFICATION_USERNAME: {{ .Values.workerParams.smsNotification.username | b64enc | quote }}
+  SMS_NOTIFICATION_PASSWORD: {{ .Values.workerParams.smsNotification.password | b64enc | quote }}
+  SMS_NOTIFICATION_RECEIVER: {{ .Values.workerParams.smsNotification.receiver | b64enc | quote }}

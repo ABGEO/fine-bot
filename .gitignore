@@ -9,3 +9,5 @@ venv/
 
 # IDEs
 .idea/
+
+helm-chart/local-values.yaml

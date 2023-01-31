@@ -1,0 +1,29 @@
+workerSchedule: "*/10 6-20 * * *"
+workerParams:
+  documentNumber:
+  vehicleNumber:
+  antiCaptcha:
+    key:
+    softId:
+  smtp:
+    server:
+    port:
+    username:
+    password:
+  emailNotification:
+    sender:
+    receiver:
+  smsNotification:
+    APIUrl:
+    username:
+    password:
+    receiver:
+databaseVolume:
+  localPath:
+  nodeSelectorTerms: []
+#  nodeSelectorTerms:
+#    - matchExpressions:
+#        - key: kubernetes.io/hostname
+#          operator: In
+#          values:
+#            - some-worker

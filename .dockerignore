@@ -11,6 +11,7 @@ venv/
 .idea/
 
 .git/
+helm-chart/
 .gitignore
 .pre-commit-config.yaml
 .pylintrc

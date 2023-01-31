@@ -1,0 +1,11 @@
+kind: Secret
+type: Opaque
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-db-env
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  POSTGRES_USER: {{ "finebot" | b64enc | quote }}
+  POSTGRES_PASSWORD: {{ randAlphaNum 32 | b64enc | quote }}
+  POSTGRES_DB: {{ "finebot" | b64enc | quote }}
