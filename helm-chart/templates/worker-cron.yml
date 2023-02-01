@@ -8,7 +8,7 @@ spec:
   schedule: {{ .Values.workerSchedule | quote }}
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 10
-  successfulJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 12
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -26,17 +26,17 @@ spec:
                 - name: DB_USER
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Chart.Name }}-db-env
+                      name: db-env
                       key: POSTGRES_USER
                 - name: DB_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Chart.Name }}-db-env
+                      name: db-env
                       key: POSTGRES_PASSWORD
                 - name: DB_NAME
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Chart.Name }}-db-env
+                      name: db-env
                       key: POSTGRES_DB
                 - name: DATABASE_URL
                   value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(FINE_BOT_DB_SERVICE_HOST):$(FINE_BOT_DB_SERVICE_PORT)/$(DB_NAME)"
