@@ -19,6 +19,8 @@ services:
       SMS_NOTIFICATION_USERNAME:
       SMS_NOTIFICATION_PASSWORD:
       SMS_NOTIFICATION_RECEIVER:
+    profiles:
+      - all
     depends_on:
       db:
         condition: service_healthy
@@ -30,6 +32,9 @@ services:
       - POSTGRES_DB=finebot
       - POSTGRES_USER=finebot
       - POSTGRES_PASSWORD=changeme
+    profiles:
+      - all
+      - helper
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 10s

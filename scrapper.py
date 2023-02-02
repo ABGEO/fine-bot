@@ -189,9 +189,10 @@ class Scrapper:
             .find_all("div", recursive=False)[1]
         )
 
-        def create_media_blob(tag: element.Tag) -> Media:
-            if tag.has_attr("class") and "image-box" in tag["class"]:
-                url = f"{tag.find('img')['src']}"
+        def create_media_blob(tag: element.Tag) -> Media | None:
+            try_img = tag.find("img")
+            if try_img is not None:
+                url = f"{try_img['src']}"
                 media_type = MediaType.PNG
             else:
                 result = re.search(r"'oggvideo-(.*)\.ogg';src2", str(tag))
