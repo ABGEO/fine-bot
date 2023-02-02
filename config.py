@@ -1,7 +1,8 @@
 # pylint: disable=too-many-instance-attributes
-
-
+import os
 from dataclasses import dataclass
+
+from dotenv import load_dotenv, dotenv_values
 
 
 @dataclass
@@ -10,24 +11,34 @@ class Config:
     Configuration data class.
     """
 
-    base_url: str
-    database_url: str
-    document_number: str
-    vehicle_number: str
-    anti_captcha_key: str
+    def __init__(self):
+        load_dotenv()
 
-    smtp_server: str
-    smtp_port: int
-    smtp_username: str
-    smtp_password: str
+        env = {
+            **dotenv_values(".env.base"),
+            **dotenv_values(".env.local"),
+            **os.environ,
+        }
 
-    notification_sender_email: str
-    notification_receiver_email: str
+        self.base_url: str = env.get("BASE_URL")
+        self.database_url: str = env.get("DATABASE_URL")
+        self.document_number: str = env.get("DOCUMENT_NUMBER")
+        self.vehicle_number: str = env.get("VEHICLE_NUMBER")
 
-    sms_notification_api_url: str
-    sms_notification_username: str
-    sms_notification_password: str
-    sms_notification_receiver: str
+        self.anti_captcha_key: str = env.get("ANTI_CAPTCHA_KEY")
+        self.anti_captcha_soft_id: int = env.get("ANTI_CAPTCHA_SOFT_ID", 0)
 
-    anti_captcha_soft_id: int = 0
-    session_id: str = None
+        self.smtp_server: str = env.get("SMTP_SERVER")
+        self.smtp_port: int = env.get("SMTP_PORT")
+        self.smtp_username: str = env.get("SMTP_USERNAME")
+        self.smtp_password: str = env.get("SMTP_PASSWORD")
+
+        self.notification_sender_email: str = env.get("NOTIFICATION_SENDER_EMAIL")
+        self.notification_receiver_email: str = env.get("NOTIFICATION_RECEIVER_EMAIL")
+
+        self.sms_notification_api_url: str = env.get("SMS_NOTIFICATION_API_URL")
+        self.sms_notification_username: str = env.get("SMS_NOTIFICATION_USERNAME")
+        self.sms_notification_password: str = env.get("SMS_NOTIFICATION_PASSWORD")
+        self.sms_notification_receiver: str = env.get("SMS_NOTIFICATION_RECEIVER")
+
+        self.session_id: str | None = None

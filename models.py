@@ -1,14 +1,18 @@
-# pylint: disable=too-few-public-methods,missing-class-docstring
+# pylint: disable=too-few-public-methods,missing-class-docstring,missing-function-docstring,unused-argument
 
 import datetime
 import enum
 
-from sqlalchemy import LargeBinary, ForeignKey
+from sqlalchemy import LargeBinary, ForeignKey, event, Connection
 from sqlalchemy import String
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Mapper, AttributeEventToken
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+
+from notifier import Notifier
+
+notifier = Notifier()
 
 
 class Base(DeclarativeBase):
@@ -76,3 +80,25 @@ class KeyValue(Base):
 
     def __repr__(self):
         return f"KeyValue(key={self.key!r}, value={self.value!r})"
+
+
+@event.listens_for(Protocol, "after_insert")
+def protocol_after_insert(mapper: Mapper, connection: Connection, target: Protocol):
+    notifier.notify_about_new_protocol(target)
+
+
+@event.listens_for(Protocol.status, "set")
+def protocol_status_update(
+    target: Protocol,
+    value: ProtocolStatus,
+    old_value: ProtocolStatus,
+    initiator: AttributeEventToken,
+):
+    if target.id is None:
+        return
+
+    if value == old_value:
+        return
+
+    if value == ProtocolStatus.PAID_ON_TIME:
+        notifier.notify_about_successful_payment(target)

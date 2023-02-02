@@ -2,5 +2,5 @@ apiVersion: v2
 name: fine-bot
 description: A Helm chart for fine-bot project
 type: application
-version: 0.1.0
-appVersion: "0.1.0"
+version: 0.3.0
+appVersion: "0.2.0"
