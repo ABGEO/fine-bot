@@ -18,12 +18,15 @@ workerParams:
     username:
     password:
     receiver:
-databaseVolume:
-  localPath:
-  nodeSelectorTerms: []
-#  nodeSelectorTerms:
-#    - matchExpressions:
-#        - key: kubernetes.io/hostname
-#          operator: In
-#          values:
-#            - some-worker
+database:
+  auth:
+    password:
+  volume:
+    localPath:
+    nodeSelectorTerms: []
+  #  nodeSelectorTerms:
+  #    - matchExpressions:
+  #        - key: kubernetes.io/hostname
+  #          operator: In
+  #          values:
+  #            - some-worker

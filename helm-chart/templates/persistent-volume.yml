@@ -12,8 +12,8 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-    path: {{ .Values.databaseVolume.localPath }}
+    path: {{ .Values.database.volume.localPath }}
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        {{- toYaml .Values.databaseVolume.nodeSelectorTerms | nindent 8 }}
+        {{- toYaml .Values.database.volume.nodeSelectorTerms | nindent 8 }}

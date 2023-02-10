@@ -6,10 +6,6 @@ metadata:
   labels:
     {{- include "labels" . | nindent 4 }}
 data:
-  {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace "db-env") | default dict }}
-  {{- $secretData := (get $secretObj "data") | default dict }}
-  {{- $password := (get $secretData "db-env") | default (randAlphaNum 32 | b64enc) }}
-
   POSTGRES_USER: {{ "finebot" | b64enc | quote }}
-  POSTGRES_PASSWORD: {{ $password | quote }}
+  POSTGRES_PASSWORD: {{ .Values.database.auth.password | b64enc | quote }}
   POSTGRES_DB: {{ "finebot" | b64enc | quote }}
